@@ -30,19 +30,28 @@ public:
 
     void poseCallback(const nav_msgs::Odometry & msg);
 
-	void SetSpeed(double speed, double angle);
+    void setSpeed(int x, int y, int z);
+    void setTopicName(QString name);
     void setPose(QList<double> to_set);
 
     Q_SLOT void run();
 
     Q_SIGNAL void newPose(double,double,double);
+
+    Q_INVOKABLE void sendMsg(QString topicName, int x, int y, int z);
 private:
     int m_Init_argc;
     char** m_pInit_argv;
     const char * m_topic;
+    QString m_topic_send;
+    ros::NodeHandle *m_nh;
+    QMutex * m_Mutex_Send;
 
-    double m_speed;
-    double m_angle;
+    bool m_isTopicNameChanged;
+
+    int m_speedX;
+    int m_speedY;
+    int m_speedZ;
 
     double m_xPos;
     double m_yPos;
